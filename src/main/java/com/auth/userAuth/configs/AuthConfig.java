@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.auth.userAuth.entities.enums.Roles.ADMIN;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class AuthConfig {
         httpSecurity
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/auth/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/test").hasRole(ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .csrf(csrfConfig -> csrfConfig.disable())
