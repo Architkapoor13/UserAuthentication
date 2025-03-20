@@ -29,7 +29,7 @@ public class JwtService {
                 .subject(user.getId().toString())
                 .claim("username", user.getUsername())
                 .claim("name", user.getName())
-                .claim("roles", user.getRoles())
+                .claim("roles", user.getAuthorities())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60*5))
                 .signWith(getSecretKey())
