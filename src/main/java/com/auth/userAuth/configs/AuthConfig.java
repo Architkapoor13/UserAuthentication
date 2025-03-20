@@ -20,7 +20,7 @@ public class AuthConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrfConfig -> csrfConfig.disable())

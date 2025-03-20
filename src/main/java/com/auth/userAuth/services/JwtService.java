@@ -1,5 +1,6 @@
 package com.auth.userAuth.services;
 
+import com.auth.userAuth.dto.LoginResponseDto;
 import com.auth.userAuth.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
@@ -18,12 +19,12 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class JwtService {
-//    private final UserService userService;
 
     @Value("${jwt.secret}")
     private String jwtSecretKey;
 
-    public String generateToken(UserEntity user){
+
+    public String getAccessToken(UserEntity user){
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("username", user.getUsername())
@@ -33,6 +34,15 @@ public class JwtService {
                 .signWith(getSecretKey())
                 .compact();
 
+    }
+
+    public String GetRefreshToken(UserEntity user){
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000L *60*60*24*30*6))
+                .signWith(getSecretKey())
+                .compact();
     }
 
     public Long getUserFromToken(String token){
